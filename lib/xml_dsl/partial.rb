@@ -11,7 +11,7 @@ module XmlDsl
     end
 
     def a(*args)
-      @context.a *args
+      @context.a(*args)
     end
 
     def eval

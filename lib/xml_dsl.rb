@@ -4,6 +4,8 @@ require 'xml_dsl/tag'
 require 'xml_dsl/attribute'
 require 'xml_dsl/partial'
 require 'xml_dsl/options_parser'
+require 'lib/core_extensions'
+require 'byebug'
 
 module XmlDsl
   class Error < StandardError; end

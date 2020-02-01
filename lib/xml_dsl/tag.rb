@@ -45,19 +45,6 @@ module XmlDsl
       ([''] + @attributes.map(&:to_xml).compact.map { |attribute| "#{spaces}#{attribute}" }).join("\n")
     end
 
-    # Maybe moved to a concern :t
-    def can_read?(object, key)
-      return object.key?(key) if object.respond_to?(:key?)
-
-      object.respond_to?(key)
-    end
-
-    def read(object, key)
-      return object[key] if object.is_a? Hash
-
-      object.send key
-    end
-
     def method_missing(m, *args, &block)
       return @options[:locals][m] if @options[:locals] && @options[:locals].key?(m)
 

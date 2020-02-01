@@ -26,37 +26,10 @@ module XmlDsl
 
     def partial(name, options = {}, context = self)
       file_name = File.join(@template_dir, "_#{name}.xml.rb").to_s
-      options[:locals] ||= {}
 
-      if options.key?(:collection) && options.key?(:as)
-        return unless options[:collection].respond_to? :each
-
-        options[:collection].each do |element|
-          options[:locals][options[:as]] = element
-
-          options.delete(:collection, :as)
-        end
-      elsif options.key?(:with) && options.key?(:of)
-        return unless can_read? options[:of], options[:with]
-
-        as = options[:as] || options[:with]
-
-        options[:locals][as] = read options[:of], options[:with]
+      OptionsParser.parse(options).each do |parsed_options|
+        Partial.new(file_name, context, parsed_options).eval
       end
-
-      Partial.new(file_name, context, options).eval
-    end
-
-    def can_read?(object, key)
-      return object.key?(key) if object.respond_to?(:key?)
-
-      object.respond_to?(key)
-    end
-
-    def read(object, key)
-      return object[key] if object.is_a? Hash
-
-      object.send key
     end
 
     def method_missing(m, *args, &block)

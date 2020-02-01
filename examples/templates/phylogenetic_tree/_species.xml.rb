@@ -1,5 +1,5 @@
-tag species.name do
-  a 'picture', species.name
+tag species[:name] do
+  a 'picture', species[:picture]
 
-  partial 'species', collection: :children, as: :species
+  partial 'species', collection: species[:children], as: :species
 end

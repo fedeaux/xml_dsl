@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'xml_dsl/version'
 require 'xml_dsl/generator'
 require 'xml_dsl/tag'

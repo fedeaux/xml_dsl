@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XmlDsl
   class Tag
     def initialize(name, generator, depth, options = {})
@@ -46,7 +48,7 @@ module XmlDsl
     end
 
     def method_missing(m, *args, &block)
-      return @options[:locals][m] if @options[:locals] && @options[:locals].key?(m)
+      return @options[:locals][m] if @options[:locals]&.key?(m)
 
       @generator.send(m, *args, &block)
     end

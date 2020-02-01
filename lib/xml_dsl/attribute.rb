@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XmlDsl
   class Attribute
     def initialize(*args)

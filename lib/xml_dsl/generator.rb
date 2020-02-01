@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XmlDsl
   class Generator
     def initialize(data_source:, template:, version_tag: '<?xml version="1.0" encoding="utf-8"?>')

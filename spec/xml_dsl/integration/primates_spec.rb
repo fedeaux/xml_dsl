@@ -3,7 +3,7 @@
 require_relative '../../spec_helper'
 
 RSpec.describe 'Generating the phylogenetic tree for primates' do
-  let(:monkeys) {
+  let(:monkeys) do
     {
       children: [
         {
@@ -17,7 +17,7 @@ RSpec.describe 'Generating the phylogenetic tree for primates' do
         }
       ]
     }
-  }
+  end
 
   describe 'the generated xml' do
     it 'generates the xml' do

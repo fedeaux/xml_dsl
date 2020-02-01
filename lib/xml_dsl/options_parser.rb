@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XmlDsl
   class OptionsParser
     attr_accessor :options

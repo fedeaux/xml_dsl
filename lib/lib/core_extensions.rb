@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 unless Hash.respond_to? :deep_merge
   class Hash
     def deep_merge(other_hash, &block)

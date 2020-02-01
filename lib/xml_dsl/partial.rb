@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XmlDsl
   class Partial
     def initialize(file_name, context, options = {})
@@ -20,7 +22,7 @@ module XmlDsl
     end
 
     def method_missing(m, *args, &block)
-      return @options[:locals][m] if @options[:locals] && @options[:locals].key?(m)
+      return @options[:locals][m] if @options[:locals]&.key?(m)
 
       @context.send(m, *args, &block)
     end

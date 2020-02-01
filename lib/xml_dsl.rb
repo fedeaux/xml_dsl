@@ -1,6 +1,14 @@
-require "xml_dsl/version"
+require 'xml_dsl/version'
+require 'xml_dsl/generator'
+require 'xml_dsl/tag'
+require 'xml_dsl/attribute'
+require 'xml_dsl/partial'
+require 'xml_dsl/options_parser'
 
 module XmlDsl
   class Error < StandardError; end
-  # Your code goes here...
+
+  def self.root
+    File.dirname __dir__
+  end
 end

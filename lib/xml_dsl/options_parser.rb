@@ -26,16 +26,20 @@ module XmlDsl
 
           yield options
         end
-      elsif options.key?(:with) && options.key?(:of)
-        return unless can_read? options[:of], options[:with]
+      elsif (options.key?(:if) || options.key?(:require)) && options.key?(:of)
+        return if options.key?(:if) && !(can_read? options[:of], options[:if])
 
-        as = options[:as] || options[:with]
+        if options.key?(:require) && !can_read?(options[:of], options[:require])
+          raise RequireValueNotPresent.new("Can't read required key #{options[:require]} of #{options[:of]}")
+        end
+
+        accessor = options[:require] || options[:if]
         of = options[:of]
-        with = options[:with]
+        as = options[:as] || accessor
 
-        delete_options :with, :of, :as
+        delete_options :if, :of, :as, :require
 
-        options[:locals][as] = read of, with
+        options[:locals][as] = read of, accessor
         yield options
       else
         yield options

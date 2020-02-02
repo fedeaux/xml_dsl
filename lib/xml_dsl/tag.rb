@@ -13,8 +13,19 @@ module XmlDsl
     end
 
     # Block evaluation
-    def a(*args)
-      attribute = Attribute.new(*args)
+    def a(name, options_or_value = {})
+      # It is options
+      if options_or_value.is_a? Hash
+        OptionsParser.parse(options_or_value).each do |parsed_options|
+          attribute = Attribute.new(name, parsed_options[:locals].values.first)
+          @attributes.push attribute
+        end
+
+        return
+      end
+
+      # It is a value
+      attribute = Attribute.new(name, options_or_value)
       @attributes.push attribute
     end
 

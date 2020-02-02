@@ -11,6 +11,7 @@ require 'byebug'
 
 module XmlDsl
   class Error < StandardError; end
+  class RequireValueNotPresent < StandardError; end
 
   def self.root
     File.dirname __dir__

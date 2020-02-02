@@ -15,7 +15,7 @@ module XmlDsl
 
     def generate
       instance_eval File.read(@template), @template.to_s
-      ([@version_tag] + @tags.map(&:to_xml)).join "\n"
+      ([@version_tag] + @tags.map(&:to_xml) + ['']).join "\n"
     end
 
     def tag(name, options = {}, &block)
@@ -26,10 +26,10 @@ module XmlDsl
       end
     end
 
-    def partial(name, options = {}, context = self)
+    def partial(name, options = {}, context = self, context_options = {})
       file_name = File.join(@template_dir, "_#{name}.xml.rb").to_s
 
-      OptionsParser.parse(options).each do |parsed_options|
+      OptionsParser.parse(options, context_options).each do |parsed_options|
         Partial.new(file_name, context, parsed_options).eval
       end
     end

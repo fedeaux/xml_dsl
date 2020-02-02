@@ -4,16 +4,22 @@ module XmlDsl
   class OptionsParser
     attr_accessor :options
 
-    def initialize(original_options)
+    def initialize(original_options, parent_options = {})
       self.options = original_options.clone
       options[:locals] ||= {}
+
+      return unless parent_options.key?(:locals)
+
+      options[:locals] = parent_options[:locals].deep_merge(options[:locals])
     end
 
-    def self.parse(options)
-      new options
+    def self.parse(options, parent_options = {})
+      new options, parent_options
     end
 
     def each
+      return if options.key?(:if) && !options[:if]
+
       if options.key?(:collection) && options.key?(:as)
         return unless options[:collection].respond_to? :each
 

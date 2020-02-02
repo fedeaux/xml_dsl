@@ -16,8 +16,8 @@ module XmlDsl
     def a(name, options_or_value = {})
       # It is options
       if options_or_value.is_a? Hash
-        OptionsParser.parse(options_or_value).each do |parsed_options|
-          attribute = Attribute.new(name, parsed_options[:locals].values.first)
+        AttributeOptionsParser.parse(options_or_value).each do |value|
+          attribute = Attribute.new(name, value)
           @attributes.push attribute
         end
 
@@ -30,7 +30,7 @@ module XmlDsl
     end
 
     def tag(name, options = {}, &block)
-      OptionsParser.parse(options).each do |parsed_options|
+      OptionsParser.parse(options, @options).each do |parsed_options|
         xml_tag = Tag.new(name, @generator, @depth + 1, parsed_options)
         @tags.push xml_tag
         xml_tag.instance_eval(&block) if block_given?
@@ -38,7 +38,7 @@ module XmlDsl
     end
 
     def partial(name, options = {})
-      @generator.partial(name, options, self)
+      @generator.partial(name, options, self, @options)
     end
 
     # XML Generation

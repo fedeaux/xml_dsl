@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<simple-tag
+  simple="attribute"
+  with_data="I have a value"
+  a_reference_attribute="Me too"
+  a_conditional_existing_reference_attribute="Count on me">
+  <nested-tag
+    simple="attribute"
+    with_data="I have a value"
+    a_reference_attribute="Me too"
+    a_conditional_existing_reference_attribute="Count on me" />
+  <nested-conditional-existing-tag
+    simple="attribute"
+    with_data="I have a value (Now in local reference)"
+    a_conditional_existing_reference_attribute="Count on me (Even in local reference)" />
+  <nested-conditional-existing-tag-but-other-name
+    simple="attribute"
+    with_data="I have a value (Now in local reference)"
+    a_conditional_existing_reference_attribute="Count on me (Even in local reference)" />
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 1"
+    existing_conditional="Conditional Attribute 1">
+    <with-a-nested-tag
+      simple="attribute"
+      with_data="First Attribute 1" />
+  </repeating-tag>
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 2"
+    existing_conditional="Conditional Attribute 2" />
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 3"
+    existing_conditional="Conditional Attribute 3" />
+  <partial_with_local_value nothing_that="fancy" />
+  <i-am-not-sure if_that_should_be_allowed="I have a value" />
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 1"
+    existing_conditional="Conditional Attribute 1">
+    <with-a-nested-tag
+      simple="attribute"
+      with_data="First Attribute 1" />
+  </too-lazy-to-add-new-examples>
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 2"
+    existing_conditional="Conditional Attribute 2" />
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 3"
+    existing_conditional="Conditional Attribute 3" />
+</simple-tag>

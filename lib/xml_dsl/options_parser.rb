@@ -36,7 +36,7 @@ module XmlDsl
         return if options.key?(:if) && !(can_read? options[:of], options[:if])
 
         if options.key?(:require) && !can_read?(options[:of], options[:require])
-          raise RequireValueNotPresent.new("Can't read required key #{options[:require]} of #{options[:of]}")
+          raise RequiredValueNotPresent, "Can't read required key #{options[:require]} of #{options[:of]}"
         end
 
         accessor = options[:require] || options[:if]

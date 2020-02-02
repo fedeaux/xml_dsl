@@ -8,10 +8,9 @@ require 'xml_dsl/partial'
 require 'xml_dsl/options_parser'
 require 'xml_dsl/attribute_options_parser'
 require 'lib/core_extensions'
-require 'byebug'
 
 module XmlDsl
-  class RequireValueNotPresent < StandardError; end
+  class RequiredValueNotPresent < StandardError; end
 
   def self.root
     File.dirname __dir__

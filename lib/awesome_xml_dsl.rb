@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'xml_dsl/version'
+require 'awesome_xml_dsl/version'
 require 'lib/core_extensions'
 
-require 'xml_dsl/options_parser'
-require 'xml_dsl/attribute_options_parser'
+require 'awesome_xml_dsl/options_parser'
+require 'awesome_xml_dsl/attribute_options_parser'
 
-require 'xml_dsl/generator'
-require 'xml_dsl/attribute'
-require 'xml_dsl/partial'
-require 'xml_dsl/tag'
+require 'awesome_xml_dsl/generator'
+require 'awesome_xml_dsl/attribute'
+require 'awesome_xml_dsl/partial'
+require 'awesome_xml_dsl/tag'
 
 module AwesomeXmlDsl
   class RequiredValueNotPresent < StandardError; end

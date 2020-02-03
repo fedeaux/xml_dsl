@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'xml_dsl'
+require 'awesome_xml_dsl'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

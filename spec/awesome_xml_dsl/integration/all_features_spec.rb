@@ -36,10 +36,10 @@ RSpec.describe 'Generating xmls with all features' do
     end
 
     it 'generates the xml' do
-      template = File.join(XmlDsl.root, 'examples/templates/all_features/index.xml.rb')
-      expected_xml = File.read(File.join(XmlDsl.root, 'examples/xmls/all_features/index.xml'))
+      template = File.join(AwesomeXmlDsl.root, 'examples/templates/all_features/index.xml.rb')
+      expected_xml = File.read(File.join(AwesomeXmlDsl.root, 'examples/xmls/all_features/index.xml'))
 
-      expect(XmlDsl::Generator.new(data_source: data_source,
+      expect(AwesomeXmlDsl::Generator.new(data_source: data_source,
                                    template: template).generate).to eq expected_xml
     end
   end
@@ -54,12 +54,12 @@ RSpec.describe 'Generating xmls with all features' do
     end
 
     it 'raises an error if the require value is not present' do
-      template = File.join(XmlDsl.root, 'examples/templates/other_features/required_value.xml.rb')
+      template = File.join(AwesomeXmlDsl.root, 'examples/templates/other_features/required_value.xml.rb')
 
       expect do
-        XmlDsl::Generator.new(data_source: data_source,
+        AwesomeXmlDsl::Generator.new(data_source: data_source,
                               template: template).generate
-      end.to raise_error(XmlDsl::RequiredValueNotPresent, "Can't read required key inexistent of i_dont")
+      end.to raise_error(AwesomeXmlDsl::RequiredValueNotPresent, "Can't read required key inexistent of i_dont")
     end
   end
 end

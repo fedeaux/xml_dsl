@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XmlDsl
+module AwesomeXmlDsl
   class Partial
     def initialize(file_name, context, options = {})
       @context = context

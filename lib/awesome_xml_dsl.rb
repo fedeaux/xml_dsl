@@ -11,7 +11,7 @@ require 'xml_dsl/attribute'
 require 'xml_dsl/partial'
 require 'xml_dsl/tag'
 
-module XmlDsl
+module AwesomeXmlDsl
   class RequiredValueNotPresent < StandardError; end
 
   def self.root

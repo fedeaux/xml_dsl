@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XmlDsl
+module AwesomeXmlDsl
   class AttributeOptionsParser
     def initialize(original_options)
       @as = original_options[:as] || original_options[:require] || original_options[:if]

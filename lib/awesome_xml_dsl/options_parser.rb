@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XmlDsl
+module AwesomeXmlDsl
   class OptionsParser
     attr_accessor :options
 

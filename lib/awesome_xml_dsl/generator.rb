@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XmlDsl
+module AwesomeXmlDsl
   class Generator
     def initialize(data_source:, template:, version_tag: '<?xml version="1.0" encoding="utf-8"?>')
       @data_source = data_source

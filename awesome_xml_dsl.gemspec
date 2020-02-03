@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/xml_dsl/version'
+require_relative 'lib/awesome_xml_dsl/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'awesome_xml_dsl'
-  spec.version       = XmlDsl::VERSION
+  spec.version       = AwesomeXmlDsl::VERSION
   spec.authors       = ["Pedro 'Fedeaux' Bernardes"]
   spec.email         = ['phec06@gmail.com']
 

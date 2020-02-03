@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XmlDsl
+module AwesomeXmlDsl
   class Tag
     def initialize(name, generator, depth, options = {})
       @name = name

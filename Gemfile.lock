@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    awesome_xml_dsl (0.1.2)
+    awesome_xml_dsl (0.1.4)
 
 GEM
   remote: https://rubygems.org/

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'lib/xml_dsl'
+require_relative 'lib/xml_dsl/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'awesome_xml_dsl'
@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
 
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ['lib', 'lib/xml_dsl']
+  spec.require_paths = ['lib']
 end

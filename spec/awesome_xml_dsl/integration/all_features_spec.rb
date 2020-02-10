@@ -40,7 +40,7 @@ RSpec.describe 'Generating xmls with all features' do
       expected_xml = File.read(File.join(AwesomeXmlDsl.root, 'examples/xmls/all_features/index.xml'))
 
       expect(AwesomeXmlDsl::Generator.new(data_source: data_source,
-                                   template: template).generate).to eq expected_xml
+                                          template: template).generate).to eq expected_xml
     end
   end
 
@@ -58,7 +58,7 @@ RSpec.describe 'Generating xmls with all features' do
 
       expect do
         AwesomeXmlDsl::Generator.new(data_source: data_source,
-                              template: template).generate
+                                     template: template).generate
       end.to raise_error(AwesomeXmlDsl::RequiredValueNotPresent, "Can't read required key inexistent of i_dont")
     end
   end

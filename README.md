@@ -1,9 +1,5 @@
 # AwesomeXmlDsl
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/awesome_xml_dsl`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,23 +18,148 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+data_source = {
+  basic_data_attribute: 'I have a value',
+  nested_data: {
+    just_a_value: 'Me too',
+    a_conditional_existing_attribute: 'Count on me',
+    local_reference: {
+      local_data_attribute: 'I have a value (Now in local reference)',
+      another_conditional_existing_attribute: 'Count on me (Even in local reference)'
+    },
+    a_collection: [
+      {
+        first_attribute: 'First Attribute 1',
+        conditional_attribute: 'Conditional Attribute 1',
+        has_nested: true
+      },
+      {
+        first_attribute: 'First Attribute 2',
+        conditional_attribute: 'Conditional Attribute 2',
+        has_nested: false
+      },
+      {
+        first_attribute: 'First Attribute 3',
+        conditional_attribute: 'Conditional Attribute 3',
+        has_nested: false
+      }
+    ]
+  }
+}
 
-## Development
+AwesomeXmlDsl::Generator.new(data_source: data_source, template: 'template.xml.rb').generate
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+# template.xml.rb
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+tag 'simple-tag' do
+  a 'simple', 'attribute'
+  a 'with_data', basic_data_attribute
+  a 'a_reference_attribute', nested_data[:just_a_value]
+  a 'a_conditional_existing_reference_attribute', if: :a_conditional_existing_attribute, of: nested_data
+  a 'a_conditional_non_existing_reference_attribute', if: :dont_expect_to_see_me, of: nested_data
 
-## Contributing
+  tag 'nested-tag' do
+    a 'simple', 'attribute'
+    a 'with_data', basic_data_attribute
+    a 'a_reference_attribute', nested_data[:just_a_value]
+    a 'a_conditional_existing_reference_attribute', if: :a_conditional_existing_attribute, of: nested_data
+    a 'a_conditional_non_existing_reference_attribute', if: :dont_expect_to_see_me, of: nested_data
+  end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/xml_dsl. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/xml_dsl/blob/master/CODE_OF_CONDUCT.md).
+  tag 'nested-conditional-existing-tag', if: :local_reference, of: nested_data do
+    a 'simple', 'attribute'
+    a 'with_data', local_reference[:local_data_attribute]
+    a 'a_conditional_existing_reference_attribute', if: :another_conditional_existing_attribute, of: local_reference
+    a 'a_conditional_non_existing_reference_attribute', if: :dont_expect_to_see_me_here_too, of: local_reference
+  end
 
+  tag 'nested-conditional-existing-tag-but-other-name', if: :local_reference, of: nested_data, as: :other_name do
+    a 'simple', 'attribute'
+    a 'with_data', other_name[:local_data_attribute]
+    a 'a_conditional_existing_reference_attribute', if: :another_conditional_existing_attribute, of: other_name
+    a 'a_conditional_non_existing_reference_attribute', if: :dont_expect_to_see_me_here_too, of: other_name
+  end
 
-## License
+  tag 'nested-conditional-absent-tag', if: :why_are_you_still_expecting_me, of: nested_data do
+    a 'i_wont_be_rendered', 'attribute'
+  end
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+  tag 'repeating-tag', collection: nested_data[:a_collection], as: :element do
+    a 'simple', 'attribute'
+    a 'with_data', element[:first_attribute]
+    a 'existing_conditional', if: :conditional_attribute, of: element
+    a 'non_existing_conditional', if: :you_should_talk_to_somebody, of: element
 
-## Code of Conduct
+    tag 'with-a-nested-tag', if: element[:has_nested] do
+      a 'simple', 'attribute'
+      a 'with_data', element[:first_attribute]
+    end
+  end
 
-Everyone interacting in the AwesomeXmlDsl project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/xml_dsl/blob/master/CODE_OF_CONDUCT.md).
+  partial 'with_local_value', locals: { a_local_value: 'I am a local value' }
+  partial 'with_global_value'
+  partial 'as_a_collection', collection: nested_data[:a_collection], as: :element
+end
+```
+
+Generates:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<simple-tag
+  simple="attribute"
+  with_data="I have a value"
+  a_reference_attribute="Me too"
+  a_conditional_existing_reference_attribute="Count on me">
+  <nested-tag
+    simple="attribute"
+    with_data="I have a value"
+    a_reference_attribute="Me too"
+    a_conditional_existing_reference_attribute="Count on me" />
+  <nested-conditional-existing-tag
+    simple="attribute"
+    with_data="I have a value (Now in local reference)"
+    a_conditional_existing_reference_attribute="Count on me (Even in local reference)" />
+  <nested-conditional-existing-tag-but-other-name
+    simple="attribute"
+    with_data="I have a value (Now in local reference)"
+    a_conditional_existing_reference_attribute="Count on me (Even in local reference)" />
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 1"
+    existing_conditional="Conditional Attribute 1">
+    <with-a-nested-tag
+      simple="attribute"
+      with_data="First Attribute 1" />
+  </repeating-tag>
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 2"
+    existing_conditional="Conditional Attribute 2" />
+  <repeating-tag
+    simple="attribute"
+    with_data="First Attribute 3"
+    existing_conditional="Conditional Attribute 3" />
+  <partial_with_local_value nothing_that="fancy" />
+  <i-am-not-sure if_that_should_be_allowed="I have a value" />
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 1"
+    existing_conditional="Conditional Attribute 1">
+    <with-a-nested-tag
+      simple="attribute"
+      with_data="First Attribute 1" />
+  </too-lazy-to-add-new-examples>
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 2"
+    existing_conditional="Conditional Attribute 2" />
+  <too-lazy-to-add-new-examples
+    simple="attribute"
+    with_data="First Attribute 3"
+    existing_conditional="Conditional Attribute 3" />
+</simple-tag>
+```

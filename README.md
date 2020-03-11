@@ -163,3 +163,137 @@ Generates:
     existing_conditional="Conditional Attribute 3" />
 </simple-tag>
 ```
+
+## More examples
+
+```ruby
+# Attributes
+
+tag 'tag1' do
+  a 'attr1', ''
+  a 'attr2', if: :value, of: { value: 'value' }
+  a 'attr3', if: :value, of: { no_value: 'value' }
+end
+```
+```xml
+<tag1
+  attr1=""
+  attr2="value" />
+```
+
+---
+
+```ruby
+# Tag with a name
+tag 'tag1'
+```
+```xml
+<tag1 />
+```
+
+---
+
+```ruby
+# Conditional tags (true)
+tag 'tag1', if: true do
+  a 'if_is_true', ''
+end
+
+tag 'tag2', if: 17 > 4 do
+  a 'if_is_true', ''
+end
+
+tag 'tag3', if: :value, of: { value: 'string' } do
+  a 'value_is', value
+end
+```
+```xml
+<tag1 if_is_true="" />
+<tag2 if_is_true="" />
+<tag3 value_is="string" />
+```
+
+---
+
+```ruby
+# Conditional tags (false)
+
+tag 'tag1', if: false do
+  a 'if_is_false', ''
+end
+
+tag 'tag2', if: 4 > 6 do
+  a 'if_is_false_2', ''
+end
+
+tag 'tag3', if: :value, of: { not_value: 'string' } do
+  a 'no_key_value', value
+end
+```
+```xml
+
+```
+
+---
+
+```ruby
+# Collection tags
+
+tag 'tag1', collection: ['a', 'b', 'c'], as: :some_name do
+  a 'collection_element', some_name
+end
+
+tag 'tag2', collection: ['a', 'b', 'c'], as: :some_name, if: true do
+  a 'collection_element', some_name
+end
+
+tag 'tag3', collection: ['a', 'b', 'c'], as: :some_name, if: false do
+  a 'collection_element', some_name
+end
+```
+```xml
+<tag1 collection_element="a" />
+<tag1 collection_element="b" />
+<tag1 collection_element="c" />
+<tag2 collection_element="a" />
+<tag2 collection_element="b" />
+<tag2 collection_element="c" />
+```
+
+---
+
+```ruby
+# Nested Tags
+
+tag 'tag1', collection: ['a', 'b', 'c'], as: :some_name do
+  tag 'tag2', locals: { value: 'some value' } do
+    tag 'tag3' do
+      a 'some_name', some_name
+      a 'value', value
+    end
+  end
+end
+```
+```xml
+<tag1>
+  <tag2>
+    <tag3
+      some_name="a"
+      value="some value" />
+  </tag2>
+</tag1>
+<tag1>
+  <tag2>
+    <tag3
+      some_name="b"
+      value="some value" />
+  </tag2>
+</tag1>
+<tag1>
+  <tag2>
+    <tag3
+      some_name="c"
+      value="some value" />
+  </tag2>
+</tag1>
+```
